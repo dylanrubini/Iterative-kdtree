@@ -20,7 +20,10 @@ module kdtree_iterative
   !! @todo fix bug where crashes on init if too few observations
   !!
 
+  ! remove pure or elemental sub/func attribute because CUDA device kernel cannot have this   
+
   implicit none
+  
   private
 
 
