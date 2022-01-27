@@ -23,7 +23,7 @@ module kdtree_iterative
   ! remove pure or elemental sub/func attribute because CUDA device kernel cannot have this   
 
   implicit none
-  
+
   private
 
 
@@ -155,9 +155,9 @@ contains
        root%ptindx(n) = n
     end do
 
-    allocate(root%pts( size(coords, 2), kd_dim))
+    allocate(root%pts( kd_dim, size(coords, 2)))
     do n=1, size(coords, 2)
-       root%pts(n,:)    = coords(1:kd_dim, n)
+       root%pts(:,n)    = coords(1:kd_dim, n)
     end do
 
     ! calculate the number of kd boxes needed and create memory for them
@@ -195,7 +195,7 @@ contains
        hp => root%ptindx(ptlo:pthi)
 
        ! rotate division among x/y/z coordinates
-       cp => root%pts(:,tdim+1)
+       cp => root%pts(tdim+1,:)
 
        ! determine dividing points
        np = pthi - ptlo + 1 ! total points
@@ -338,7 +338,7 @@ contains
              ! distance if the search radius is small enough, plus its much
              ! faster. Euclidean distance is smaller than greatcircle, and so more
              ! points will be included here
-             r = dist_euc(s_xyz, root%pts(n,:))
+             r = dist_euc(s_xyz, root%pts(:,n))
 
 
              ! a new point was found
@@ -418,7 +418,7 @@ contains
        n = root%ptindx(i)
 
        ! euclidean distance (faster)
-       d = dist_euc( s_xyz, root%pts(n,:))
+       d = dist_euc( s_xyz, root%pts(:,n))
 
        ! if a closer point was found
        if (d < dn(1) ) then
@@ -456,7 +456,7 @@ contains
                 n = root%ptindx(i)
 
                 ! euclidean distance
-                d = dist_euc(root%pts(n,:), s_xyz)
+                d = dist_euc(root%pts(:,n), s_xyz)
 
 
                 if (d < dn(1)) then
