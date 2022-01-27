@@ -49,13 +49,6 @@ module kdtree_iterative
   !! kd-tree will not bother dividing a box any further if it contains
   !! this many or fewer items.
 
-  real(8), parameter :: pi = 4*atan(1.0_dp)
-  !! pi, duh
-
-  real(8), parameter :: re = 6371.3d3
-  !! radius of earth
-
-
   ! custom types
   !------------------------------------------------------------
   type kd_root
