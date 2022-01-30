@@ -520,21 +520,14 @@ contains
   subroutine dist_euc(p1, p2, out)
     !! calculate the euclidean distance between two points
 
-    real(8), intent(in) :: p1(:), p2(:)
+    real(8), intent(in) :: p1(kd_dim), p2(kd_dim)
     !! target points, in x/y/z space
 
     real(8) :: out
     !! euclidean distance (meters)
 
-    integer :: n
-    real(8) :: r1, r2
+    out = SQRT( SUM( (p1 - p2)**2 ) )
 
-    r1 = 0.0d0
-    do n=1,size(p1)
-       r2 = p1(n) - p2(n)
-       r1 = r1 + (r2*r2)
-    end do
-    out = sqrt(r1)
   end subroutine dist_euc
 
 
