@@ -585,7 +585,7 @@ contains
 
 
 
-  subroutine swap(a1, a2)
+  pure subroutine swap(a1, a2)
     !! Convenience function to swap two array indices
     !! Used by kd_selecti()
     
@@ -605,10 +605,10 @@ contains
 
 
 
-  function dist_euc(p1, p2)
+  pure function dist_euc(p1, p2)
     !! calculate the euclidean distance between two points
 
-    real(8), intent(in) :: p1(:), p2(:)
+    real(8), intent(in) :: p1(kd_dim), p2(kd_dim)
     !! target points, in x/y/z space
 
     real(8) :: dist_euc
@@ -617,12 +617,8 @@ contains
     integer :: n
     real(8) :: r1, r2
 
-    r1 = 0.0d0
-    do n=1,size(p1)
-       r2 = p1(n) - p2(n)
-       r1 = r1 + (r2*r2)
-    end do
-    dist_euc = sqrt(r1)
+    dist_euc = SQRT( SUM( (p1 - p2)**2 ) )
+
   end function dist_euc
 
 
@@ -632,7 +628,7 @@ contains
 
 
 
-  function dist_box(box, p)
+  pure function dist_box(box, p)
     !! if point is inside the box, return 0. Otherwise,
     !! caculate the distance between a point and closest spot on the box
 
