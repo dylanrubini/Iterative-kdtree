@@ -305,6 +305,7 @@ contains
     !! is close enough for most purposes, especially if the search radius is small
     !! compared to the radius of the earth. Default is False.
 
+! TODO: ASSUMES ONLY ONE NEAREST NEIGHBOUR
     real(8) :: dn(1)
     !! heap, containing distances to points
 
@@ -314,6 +315,8 @@ contains
     integer  :: kp, i, n, ntask, k
     real(8)  :: d, temp(3)
     integer  :: task(task_size)
+
+    if ( s_num /= 1 ) error stop "Only supports 1 nearest neighbour"
 
     ! ! set all entries in the heap to a really big number
     dn = 1d20
